@@ -5,11 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Note Taking</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- add note icon -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
   <link rel="stylesheet" href="./style/style.css">
 </head>
 <body>
-  
+  <div class="container">
+    <div class="add-note">
+      <i class="add-icon">
+        <iconify-icon icon="uil:file-plus-alt" width="60"></iconify-icon>
+      </i>
+    </div>
+  </div>
+  <div class="pop-up">
+    <div class="add-pop-up">
+      <div class="header-box">
+        <h3 class="heading">Add a new Note</h3>
+        <span class="close-icon">
+          <i class="fa-solid fa-xmark"></i>
+        </span>
+      </div>
+      <div class="title-box">
+        <label>Title</label>
+        <input type="text" class="title-inp">
+      </div>
+      <div class="description-box">
+        <label>Description</label>
+        <textarea 
+        class="description-inp"
+        rows="7"
+        cols="30"
+        >
+        </textarea>
+      </div>
+      <div class="btn">
+        <button class="add-btn">Add Note</button>
+      </div>
+    </div>
+  </div>
   <script src="./script.js"></script>
 </body>
 </html>
