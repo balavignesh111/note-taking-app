@@ -58,6 +58,9 @@ const dateFormat = ()=>{
 
 // validation
 const validate = ()=>{
+  // if(titleEle.value === ""){
+  //   titleEle.style.minHeight = "0rem";
+  // }
   if(titleEle.value === "" && descriptionEle.value === ""){
     isEmpty = true;
   }
