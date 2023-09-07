@@ -78,6 +78,11 @@ body{
   color: var(--var-clr-text);
 }
 
+.title-data,.description-data{
+  width: 100%;
+  min-height: 2rem;
+}
+
 .time{
   font-size: 0.9rem;
 }
@@ -187,8 +192,13 @@ body{
 
 /* content */
 .content{
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
 }
 
+/* title data */
+.title-data{
+  min-height: 2rem;
+}

@@ -13,7 +13,7 @@ const titleEle = document.querySelector('.title-inp');
 
 const descriptionEle = document.getElementById('description-inp');
 
-const popUpHeadingEle = document.querySelector('heading');
+const popUpHeadingEle = document.querySelector('.heading');
 
 // close and add note btn
 const closeBtn = document.querySelector('.close-icon');
@@ -32,42 +32,62 @@ const editBtn = document.querySelector('.edit');
 const deleteBtn = document.querySelector('.delete');
 
 // gv
-let dataBase = [];
+let dataBase = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : [];
 let isEditable = false;
-let isValidated = false;
+let isEmpty = false;
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+let editId = "";
 
 // functions
 function init(){
   popUpContainer.style.display = "none";
   descriptionEle.value = "";
   titleEle.value = "";
+  popUpHeadingEle.innerText = `Add a New Note`;
+  addBtn.innerText = `Add Note`;
+  isEmpty = false;
+  isEditable = false;
+  addDataToDOM();
 }
 
 // date format
 const dateFormat = ()=>{
   const date = new Date();
-  return `${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()} `
+  return `${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()}`
 }
 
 // validation
 const validate = ()=>{
   if(titleEle.value === "" && descriptionEle.value === ""){
-    isValidated = true;
+    isEmpty = true;
   }
 }
 
 /* add data to db*/
 const addNotes = ()=>{
-  let obj = {};
   validate();
-  if(!isValidated){
+  /* adding data to db array */
+  if(!isEditable && !isEmpty){
+    let obj = {};
     obj["id"] = Date.now();
     obj["title"] = titleEle.value;
     obj["description"] = descriptionEle.value;
-    obj["createdAt"] = dateFormat();
+    obj["lastModified"] = dateFormat();
     dataBase.unshift(obj);
+  }else if(isEditable){
+    /* edited data is added to db array */
+    dataBase.forEach((ele)=>{
+      if(ele.id === editId){
+        ele.title = titleEle.value;
+        ele.description = descriptionEle.value;
+        ele.lastModified = dateFormat();
+      }
+    })
+  }else{
+    isEmpty = false;
+    return;
   }
+  localStorage.setItem('data',JSON.stringify(dataBase));
   addDataToDOM();
 }
 
@@ -94,7 +114,7 @@ const addDataToDOM = () =>{
     </div>
     <div class="footer">
       <div class="time">
-        ${ele.createdAt}
+        ${ele.lastModified}
       </div>
       <div class="footer-btn">
         <button class="edit" onclick="editData(${ele.id})">
@@ -109,18 +129,40 @@ const addDataToDOM = () =>{
       containerEle.appendChild(noteEle);
     })
   }
-  init();
   console.log(dataBase)
 }
 
-// delete data 
+// edit data function
+const editData = (id)=>{
+  isEditable = true;
+  popUpHeadingEle.innerText = `Editing a Note`;
+  addBtn.innerText = `Edit Note`;
+  popUpContainer.style.display = "flex";
+  editId = id;
+  fetchId(id);
+}
+
+// fetching id from data base
+const fetchId = (id) =>{
+  dataBase.forEach((ele)=>{
+    if(ele.id == id){
+      titleEle.value = ele.title;
+      descriptionEle.value = ele.description;
+    }
+  })
+}
+
+// delete data function
 const deleteData = (id)=>{
   let result = confirm('Are you sure you want to delete this note?')
   if(result){
     dataBase = dataBase.filter((ele)=>{
       return ele.id !== id;
     })
+    // deleted data is removed from local storage
+    localStorage.setItem('data',JSON.stringify(dataBase));
     addDataToDOM();
+    init();
   }
 }
 
@@ -134,16 +176,15 @@ addNoteEle.addEventListener('click',()=>{
 
 // to add data to db
 addBtn.addEventListener('click',()=>{
-  if(isEditable){
-
-  }else{
     addNotes();
-  }
+    init();
 })
 
+// close btn
 closeBtn.addEventListener('click',()=>{
-  popUpContainer.style.display = "none";
+  init();
 })
+
 
 // init
 init();
