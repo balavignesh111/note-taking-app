@@ -25,6 +25,10 @@ body{
   overflow-x: hidden;
 }
 
+textarea{
+  resize: none;
+}
+
 /* container style */
 .container{
   width: 100%;

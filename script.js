@@ -58,9 +58,6 @@ const dateFormat = ()=>{
 
 // validation
 const validate = ()=>{
-  // if(titleEle.value === ""){
-  //   titleEle.style.minHeight = "0rem";
-  // }
   if(titleEle.value === "" && descriptionEle.value === ""){
     isEmpty = true;
   }
@@ -96,7 +93,7 @@ const addNotes = ()=>{
 
 /* remove element */
 const removeElement = ()=>{
-  let listEle = document.querySelectorAll('.note.added-notes');
+  let listEle = document.querySelectorAll('.note.added-notes'); 
   for(let i=0;i<listEle.length;i++){
     listEle[i].remove();
   }
@@ -132,7 +129,7 @@ const addDataToDOM = () =>{
       containerEle.appendChild(noteEle);
     })
   }
-  console.log(dataBase)
+  // console.log(dataBase)
 }
 
 // edit data function
